@@ -6,7 +6,7 @@
 
 cmake_minimum_required(VERSION 3.25)
 
-project(cc1101_subghz VERSION 0.1.8 LANGUAGES C CXX)
+project(subghz VERSION 0.1.9 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -34,7 +34,7 @@ if(NOT APP_CONFIG_FILE)
     if(USE_DESKTOP)
         set(APP_CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/config/template-app.conf")
     else()
-        set(APP_CONFIG_FILE "/etc/cc1101-subghz.conf")
+        set(APP_CONFIG_FILE "/etc/subghz.conf")
     endif()
 endif()
 

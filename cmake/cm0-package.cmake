@@ -19,11 +19,6 @@ configure_file(
     "${APP_GENERATED_DIR}/${PROJECT_NAME}.desktop"
     @ONLY
 )
-configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/templates/cc1101-subghz.sudoers.in"
-    "${APP_GENERATED_DIR}/${PROJECT_NAME}.sudoers"
-    @ONLY
-)
 
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -31,13 +26,7 @@ install(TARGETS ${PROJECT_NAME}
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/config/template-app.conf"
     DESTINATION "/etc"
-    RENAME "cc1101-subghz.conf"
-)
-
-install(FILES "${APP_GENERATED_DIR}/${PROJECT_NAME}.sudoers"
-    DESTINATION "/etc/sudoers.d"
-    PERMISSIONS OWNER_READ GROUP_READ
-    RENAME "${PROJECT_NAME}"
+    RENAME "subghz.conf"
 )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/audio/"
@@ -56,7 +45,6 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/images/"
     DESTINATION "${CMAKE_INSTALL_DATADIR}/APPLaunch/share/images"
     FILES_MATCHING
     PATTERN "subghz*.png"
-    PATTERN "template*.png"
 )
 
 install(FILES "${APP_GENERATED_DIR}/${PROJECT_NAME}.desktop"
@@ -91,7 +79,7 @@ set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${APP_DEBIAN_ARCHITECTURE}")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${APP_MAINTAINER}")
 set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-set(APP_DEBIAN_DEPENDS "libc6, libstdc++6, libgcc-s1, libfreetype6, libpng16-16, libjpeg62-turbo, zlib1g, libgpiod2 | libgpiod3, raspi-utils-core, sudo")
+set(APP_DEBIAN_DEPENDS "libc6, libstdc++6, libgcc-s1, libfreetype6, libpng16-16, libjpeg62-turbo, zlib1g, libgpiod2 | libgpiod3, raspi-utils-core")
 if(FMT_INCLUDE_DIR AND FMT_LIBRARY)
     string(APPEND APP_DEBIAN_DEPENDS ", libfmt10")
 endif()

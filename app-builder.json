@@ -1,8 +1,8 @@
 {
   "app_name": "SubGHz",
-  "bin_name": "cc1101_subghz",
-  "package_name": "cc1101_subghz",
-  "version": "0.1.8",
+  "bin_name": "subghz",
+  "package_name": "subghz",
+  "version": "0.1.9",
   "description": "Flipper Zero-inspired Sub-GHz transceiver app for CardputerZero + Cap CC1101",
 
   "store": {

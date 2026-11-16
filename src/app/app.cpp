@@ -72,7 +72,7 @@ std::string writable_config_path() {
 #else
     const auto home = model::resolve_user_home_dir();
     if (!home.empty()) {
-        return (home / "subg" / "config" / "cc1101-subghz.conf").string();
+        return (home / "subg" / "config" / "subghz.conf").string();
     }
     return APP_CONFIG_FILE;
 #endif
