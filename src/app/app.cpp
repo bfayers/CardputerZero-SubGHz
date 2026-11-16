@@ -398,12 +398,6 @@ int Application::run() {
                             break;
                         case 20:
                             platform::screenshot::capture_active_screen_to((st->dir / "08_radio_info.png").string());
-                            st->vm->set_dark_mode(true);
-                            st->vm->show_home_page();
-                            break;
-                        case 22:
-                            platform::screenshot::capture_active_screen_to((st->dir / "09_home_dark.png").string());
-                            st->vm->set_dark_mode(false);
                             st->vm->request_quit();
                             break;
                         default:

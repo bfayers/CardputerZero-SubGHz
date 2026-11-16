@@ -9,7 +9,7 @@ include(GNUInstallDirs)
 set(APP_DISPLAY_NAME "SubGHz" CACHE STRING "Human-readable application name used by launchers and package filename" FORCE)
 set(APP_DEBIAN_REVISION "rev1" CACHE STRING "Debian package revision/vendor suffix")
 set(APP_DEBIAN_ARCHITECTURE "arm64" CACHE STRING "Debian package architecture")
-set(APP_MAINTAINER "CardputerZero Developer <dev@cardputerzero.local>" CACHE STRING "Debian package maintainer")
+set(APP_MAINTAINER "Ben Fayers <bfayers@users.noreply.github.com>" CACHE STRING "Debian package maintainer" FORCE)
 set(APP_PACKAGE_DESCRIPTION "Flipper Zero-inspired Sub-GHz transceiver app for CardputerZero Cap CC1101" CACHE STRING "Debian package summary" FORCE)
 set(APP_INSTALL_SYSTEMD_SERVICE OFF CACHE BOOL "Install a systemd service file for embedded deployments")
 
