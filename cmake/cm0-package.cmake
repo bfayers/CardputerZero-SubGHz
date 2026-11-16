@@ -1,0 +1,102 @@
+#
+# SPDX-FileCopyrightText: 2026 M5Stack Technology CO LTD
+#
+# SPDX-License-Identifier: MIT
+# Packaging and install layout for CardputerZero Debian builds.
+
+include(GNUInstallDirs)
+
+set(APP_DISPLAY_NAME "SubGHz" CACHE STRING "Human-readable application name used by launchers and package filename" FORCE)
+set(APP_DEBIAN_REVISION "rev1" CACHE STRING "Debian package revision/vendor suffix")
+set(APP_DEBIAN_ARCHITECTURE "arm64" CACHE STRING "Debian package architecture")
+set(APP_MAINTAINER "CardputerZero Developer <dev@cardputerzero.local>" CACHE STRING "Debian package maintainer")
+set(APP_PACKAGE_DESCRIPTION "Flipper Zero-inspired Sub-GHz transceiver app for CardputerZero Cap CC1101" CACHE STRING "Debian package summary" FORCE)
+set(APP_INSTALL_SYSTEMD_SERVICE OFF CACHE BOOL "Install a systemd service file for embedded deployments")
+
+set(APP_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/package")
+configure_file(
+    "${CMAKE_CURRENT_LIST_DIR}/templates/app.desktop.in"
+    "${APP_GENERATED_DIR}/${PROJECT_NAME}.desktop"
+    @ONLY
+)
+configure_file(
+    "${CMAKE_CURRENT_LIST_DIR}/templates/cc1101-subghz.sudoers.in"
+    "${APP_GENERATED_DIR}/${PROJECT_NAME}.sudoers"
+    @ONLY
+)
+
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/config/template-app.conf"
+    DESTINATION "/etc"
+    RENAME "cc1101-subghz.conf"
+)
+
+install(FILES "${APP_GENERATED_DIR}/${PROJECT_NAME}.sudoers"
+    DESTINATION "/etc/sudoers.d"
+    PERMISSIONS OWNER_READ GROUP_READ
+    RENAME "${PROJECT_NAME}"
+)
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/audio/"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${APP_NAME}/audio"
+    PATTERN ".DS_Store" EXCLUDE
+)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${APP_NAME}/fonts"
+    PATTERN ".DS_Store" EXCLUDE
+)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/images/"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${APP_NAME}/images"
+    PATTERN ".DS_Store" EXCLUDE
+)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/images/"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/APPLaunch/share/images"
+    FILES_MATCHING
+    PATTERN "subghz*.png"
+    PATTERN "template*.png"
+)
+
+install(FILES "${APP_GENERATED_DIR}/${PROJECT_NAME}.desktop"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/APPLaunch/applications"
+)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/README.md"
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/LICENSE.txt"
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+    RENAME "third-party-assets-license.txt"
+)
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dist")
+set(CPACK_PACKAGE_NAME "${APP_DISPLAY_NAME}")
+set(CPACK_PACKAGE_VENDOR "${APP_MAINTAINER}")
+set(CPACK_PACKAGE_CONTACT "${APP_MAINTAINER}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${APP_PACKAGE_DESCRIPTION}")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_FILE_NAME "${APP_DISPLAY_NAME}_${PROJECT_VERSION}_${APP_DEBIAN_REVISION}_${APP_DEBIAN_ARCHITECTURE}")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/LICENSE.txt")
+
+string(TOLOWER "${APP_DISPLAY_NAME}" APP_DEBIAN_PACKAGE_NAME)
+string(REGEX REPLACE "[^a-z0-9+.-]" "-" APP_DEBIAN_PACKAGE_NAME "${APP_DEBIAN_PACKAGE_NAME}")
+set(CPACK_DEBIAN_PACKAGE_NAME "${APP_DEBIAN_PACKAGE_NAME}")
+set(CPACK_DEBIAN_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_DEBIAN_PACKAGE_RELEASE "${APP_DEBIAN_REVISION}")
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${APP_DEBIAN_ARCHITECTURE}")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${APP_MAINTAINER}")
+set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+set(APP_DEBIAN_DEPENDS "libc6, libstdc++6, libgcc-s1, libfreetype6, libpng16-16, libjpeg62-turbo, zlib1g, libgpiod2 | libgpiod3, raspi-utils-core, sudo")
+if(FMT_INCLUDE_DIR AND FMT_LIBRARY)
+    string(APPEND APP_DEBIAN_DEPENDS ", libfmt10")
+endif()
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "${APP_DEBIAN_DEPENDS}")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS OFF)
+set(CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION TRUE)
+
+include(CPack)

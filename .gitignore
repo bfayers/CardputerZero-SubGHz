@@ -1,0 +1,16 @@
+# Reference sources (not part of app repository)
+sources/
+sources.md
+
+# Build & cache artifacts
+build/
+.cache/
+dist/
+compile_commands.json
+
+# IDE & OS metadata
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*~

@@ -1,0 +1,33 @@
+{
+  "app_name": "SubGHz",
+  "package_name": "cc1101_subghz",
+  "version": "0.1.7",
+  "description": "Flipper Zero-inspired Sub-GHz transceiver app for CardputerZero + Cap CC1101",
+
+  "store": {
+    "summary": "Flipper Zero-inspired Sub-GHz (.sub) reader, analyzer, and transmitter for Cap CC1101",
+    "description": "A Flipper Zero-inspired Sub-GHz transceiver app for CardputerZero with the Cap CC1101 accessory, supporting .sub files (Key, RAW, BinRAW, Custom presets), Read, Read RAW, Saved browser, Frequency Analyzer, and Manual Remote creation.",
+    "categories": ["Utility", "Hardware"],
+    "screenshots": [
+      "screenshot/home-dark.png",
+      "screenshot/saved-browser.png",
+      "screenshot/saved-inspector.png",
+      "screenshot/read-raw.png",
+      "screenshot/analyzer.png"
+    ],
+    "icon": "assets/images/subghz.png",
+    "license": "MIT",
+    "source_repo": "https://github.com/CardputerZero/Template",
+    "author": { "github": "cardputerzero", "display_name": "CardputerZero" },
+    "share_code": "SUBGHZ",
+    "permissions": {
+      "camera": false,
+      "microphone": false,
+      "imu": false,
+      "network": false,
+      "additional_hardware": true,
+      "background_service": false,
+      "external_display": false
+    }
+  }
+}
